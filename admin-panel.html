@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Painel Administrativo da Imersão Método Vida de Valor">
+    <meta name="keywords" content="admin, imersão, vida de valor, gerenciamento">
+    <title>Painel Administrativo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lora:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Lora', serif;
+            background: linear-gradient(135deg, #2F4F4F, #3A6060);
+            color: #1A2525;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 30px;
+        }
+        .container {
+            background: #F8F1E9;
+            padding: 50px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+            width: 100%;
+            max-width: 1000px;
+            text-align: center;
+            position: relative;
+            animation: fadeIn 1s ease-in;
+        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+        h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 2.2em;
+            color: #D4AF37;
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+        }
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .controls button {
+            padding: 10px 20px;
+            background: #2F4F4F;
+            color: #F8F1E9;
+            border: none;
+            border-radius: 8px;
+            font-family: 'Cinzel', serif;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.3s;
+        }
+        .controls button:hover {
+            background: #1A2525;
+            transform: scale(1.05);
+        }
+        .filters {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .filters input, .filters select {
+            padding: 10px;
+            border: 1px solid #2F4F4F;
+            border-radius: 8px;
+            font-family: 'Lora', serif;
+            font-size: 1em;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            background: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #2F4F4F;
+        }
+        th {
+            background: #2F4F4F;
+            color: #F8F1E9;
+            font-family: 'Cinzel', serif;
+        }
+        td button {
+            padding: 8px 15px;
+            background: #D4AF37;
+            color: #1A2525;
+            border: none;
+            border-radius: 6px;
+            font-family: 'Lora', serif;
+            cursor: pointer;
+            margin-right: 5px;
+        }
+        td button:hover {
+            background: #B8972A;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.75);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .modal-content {
+            background: #F8F1E9;
+            padding: 30px;
+            border-radius: 16px;
+            border: 3px solid #D4AF37;
+            text-align: center;
+            width: 90%;
+            max-width: 500px;
+            animation: scaleIn 0.5s ease;
+        }
+        @keyframes scaleIn { from { transform: scale(0.7); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        .modal-content h3 {
+            font-family: 'Cinzel', serif;
+            color: #2F4F4F;
+            font-size: 1.8em;
+            margin-bottom: 15px;
+        }
+        .modal-content input {
+            width: 80%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #2F4F4F;
+            border-radius: 6px;
+            font-family: 'Lora', serif;
+            font-size: 1em;
+        }
+        .modal-content button {
+            padding: 12px 25px;
+            background: #D4AF37;
+            color: #1A2525;
+            border: none;
+            border-radius: 6px;
+            font-family: 'Cinzel', serif;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .modal-content button:hover {
+            background: #B8972A;
+        }
+        @media (max-width: 480px) {
+            .container { padding: 25px; max-width: 100%; }
+            h1 { font-size: 1.8em; }
+            .controls, .filters { flex-direction: column; }
+            .controls button, .filters input, .filters select { margin-bottom: 10px; }
+            table { font-size: 0.9em; }
+            .modal-content { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container" role="main">
+        <h1>👤 Painel Administrativo</h1>
+        <div class="controls">
+            <button onclick="exportData()">⬇️ Exportar Dados</button>
+            <button onclick="window.close()">↩️ Voltar</button>
+            <button onclick="showConfigModal()">⚙️ Configurações</button>
+        </div>
+        <p>Dados reais dos participantes da imersão<br>Última atualização: <span id="updateTime">12:09 AM -03, 10/06/2025</span></p>
+        <div class="filters">
+            <input type="text" id="nameFilter" placeholder="Nome:" aria-label="Filtrar por nome">
+            <select id="statusFilter" aria-label="Filtrar por status">
+                <option value="">Todos</option>
+                <option value="Ativo">Ativo</option>
+                <option value="Inativo">Inativo</option>
+            </select>
+            <input type="date" id="dateFilter" aria-label="Filtrar por data">
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Participante</th>
+                    <th>Contato</th>
+                    <th>Data Cadastro</th>
+                    <th>Status</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody id="participantTable"></tbody>
+        </table>
+        <div class="modal" id="configModal" role="dialog" aria-labelledby="configTitle">
+            <div class="modal-content">
+                <h3 id="configTitle">Configurações</h3>
+                <input type="text" id="eventName" placeholder="Nome do Evento" aria-label="Nome do evento">
+                <input type="text" id="bibleVerse" placeholder="Passagem Bíblica" aria-label="Passagem bíblica">
+                <input type="text" id="bibleCitation" placeholder="Citação Bíblica" aria-label="Citação bíblica">
+                <input type="text" id="introInfo" placeholder="Informação Inicial" aria-label="Informação inicial">
+                <button onclick="saveConfig()">Salvar</button>
+                <button onclick="closeModal('configModal')">Cancelar</button>
+            </div>
+        </div>
+        <div class="modal" id="editModal" role="dialog" aria-labelledby="editTitle">
+            <div class="modal-content">
+                <h3 id="editTitle">Editar Participante</h3>
+                <input type="text" id="editName" placeholder="Nome" aria-label="Nome do participante">
+                <input type="text" id="editPhone" placeholder="Telefone" aria-label="Telefone do participante">
+                <button onclick="saveEdit()">Salvar</button>
+                <button onclick="closeModal('editModal')">Cancelar</button>
+            </div>
+        </div>
+        <div class="modal" id="deleteModal" role="dialog" aria-labelledby="deleteTitle">
+            <div class="modal-content">
+                <h3 id="deleteTitle">Tem certeza que deseja excluir este participante?</h3>
+                <button onclick="confirmDelete()">Sim</button>
+                <button onclick="closeModal('deleteModal')">Não</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let participants = JSON.parse(localStorage.getItem('participants')) || [];
+        let currentEditIndex = null;
+
+        // Atualiza a tabela de participantes
+        function updatePanel() {
+            const tbody = document.getElementById('participantTable');
+            tbody.innerHTML = '';
+            const nameFilter = document.getElementById('nameFilter').value.toLowerCase();
+            const statusFilter = document.getElementById('statusFilter').value;
+            const dateFilter = document.getElementById('dateFilter').value;
+
+            participants.forEach((p, index) => {
+                if ((nameFilter && !p.name.toLowerCase().includes(nameFilter)) ||
+                    (statusFilter && p.status !== statusFilter) ||
+                    (dateFilter && !p.timestamp.startsWith(dateFilter))) {
+                    return;
+                }
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${p.name}</td>
+                    <td>${p.phone} / ${p.email}</td>
+                    <td>${p.timestamp}</td>
+                    <td>${p.status}</td>
+                    <td>
+                        <button onclick="showEditModal(${index})">Editar</button>
+                        <button onclick="showDeleteModal(${index})">Excluir</button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // Filtros
+        document.getElementById('nameFilter').addEventListener('input', updatePanel);
+        document.getElementById('statusFilter').addEventListener('change', updatePanel);
+        document.getElementById('dateFilter').addEventListener('change', updatePanel);
+
+        // Exporta dados como CSV
+        function exportData() {
+            let csv = 'Nome,Telefone,Email,Data Cadastro,Status';
+            const level7Categories = [
+                'Complexos de inferioridade',
+                'Filtros mentais negativos',
+                'Quebra financeira',
+                'Abusos',
+                'Traumas do passado',
+                'Crenças limitantes',
+                'Ambientes problemáticos',
+                'Vícios',
+                'Falta de paternidade',
+                'Relacionamentos destrutivos'
+            ];
+            csv += ',' + level7Categories.join(',');
+            csv += '\n';
+
+            participants.forEach(p => {
+                const level7Responses = JSON.parse(localStorage.getItem('level7Responses')) || {};
+                const scores = level7Categories.map((_, i) => level7Responses[`q${i + 1}`] || 'N/A');
+                csv += `"${p.name}","${p.phone}","${p.email}","${p.timestamp}","${p.status}",${scores.join(',')}\n`;
+            });
+
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'participantes_imersao.csv';
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        // Modais
+        function showConfigModal() {
+            const config = JSON.parse(localStorage.getItem('config')) || {};
+            document.getElementById('eventName').value = config.eventName || '';
+            document.getElementById('bibleVerse').value = config.bibleVerse || '';
+            document.getElementById('bibleCitation').value = config.bibleCitation || '';
+            document.getElementById('introInfo').value = config.introInfo || '';
+            document.getElementById('configModal').style.display = 'flex';
+        }
+
+        function saveConfig() {
+            const config = {
+                eventName: document.getElementById('eventName').value,
+                bibleVerse: document.getElementById('bibleVerse').value,
+                bibleCitation: document.getElementById('bibleCitation').value,
+                introInfo: document.getElementById('introInfo').value
+            };
+            localStorage.setItem('config', JSON.stringify(config));
+            closeModal('configModal');
+        }
+
+        function showEditModal(index) {
+            currentEditIndex = index;
+            const p = participants[index];
+            document.getElementById('editName').value = p.name;
+            document.getElementById('editPhone').value = p.phone;
+            document.getElementById('editModal').style.display = 'flex';
+        }
+
+        function saveEdit() {
+            participants[currentEditIndex].name = document.getElementById('editName').value;
+            participants[currentEditIndex].phone = document.getElementById('editPhone').value;
+            localStorage.setItem('participants', JSON.stringify(participants));
+            updatePanel();
+            closeModal('editModal');
+        }
+
+        function showDeleteModal(index) {
+            currentEditIndex = index;
+            document.getElementById('deleteModal').style.display = 'flex';
+        }
+
+        function confirmDelete() {
+            participants.splice(currentEditIndex, 1);
+            localStorage.setItem('participants', JSON.stringify(participants));
+            updatePanel();
+            closeModal('deleteModal');
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).style.display = 'none';
+        }
+
+        // Inicializa o painel
+        updatePanel();
+        document.getElementById('updateTime').textContent = new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' });
+    </script>
+</body>
+</html>

@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Nível 2 da Imersão Método Vida de Valor: Clareza – Saber onde quer chegar">
+    <meta name="keywords" content="clareza, transformação, vida de valor, gamificação">
+    <title>Nível 2 - Imersão Método Vida de Valor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lora:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Lora', serif;
+            background: linear-gradient(135deg, #2F4F4F, #3A6060);
+            color: #1A2525;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 30px;
+        }
+        .container {
+            background: #F8F1E9;
+            padding: 50px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+            width: 100%;
+            max-width: 750px;
+            text-align: center;
+            position: relative;
+            animation: fadeIn 1s ease-in;
+        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+        h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 2.2em;
+            color: #D4AF37;
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+        }
+        .intro {
+            background: linear-gradient(180deg, rgba(248,241,233,0.95), rgba(212,175,55,0.05));
+            padding: 25px;
+            border: 2px solid #D4AF37;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            position: relative;
+        }
+        .intro::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 2px;
+            background: #D4AF37;
+        }
+        .intro p {
+            color: #1A2525;
+            font-size: 1.2em;
+            font-style: italic;
+            line-height: 1.7;
+        }
+        .intro .welcome {
+            font-size: 1.1em;
+            font-style: normal;
+            margin-top: 15px;
+        }
+        .intro .citation {
+            font-size: 0.95em;
+            color: #2F4F4F;
+            margin-top: 12px;
+        }
+        h2 {
+            font-family: 'Cinzel', serif;
+            color: #2F4F4F;
+            font-size: 1.8em;
+            margin: 30px 0;
+            letter-spacing: 0.5px;
+        }
+        .goal {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #fff;
+            border: 2px solid #D4AF37;
+            border-radius: 12px;
+        }
+        .goal h3 {
+            font-family: 'Cinzel', serif;
+            color: #2F4F4F;
+            font-size: 1.4em;
+            margin-bottom: 15px;
+        }
+        .goal p {
+            color: #1A2525;
+            font-size: 1.1em;
+            line-height: 1.6;
+        }
+        .actions {
+            text-align: left;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #fff;
+            border: 1px solid #2F4F4F;
+            border-radius: 8px;
+        }
+        .actions h3 {
+            font-family: 'Cinzel', serif;
+            color: #2F4F4F;
+            font-size: 1.3em;
+            margin-bottom: 10px;
+        }
+        .actions ul {
+            list-style-type: disc;
+            padding-left: 20px;
+            color: #1A2525;
+            font-size: 1em;
+            line-height: 1.6;
+        }
+        .question-group {
+            background: #fff;
+            padding: 25px;
+            border: 1px solid #2F4F4F;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            opacity: 0;
+            animation: slideUp 0.6s ease forwards;
+            animation-delay: calc(0.2s * var(--i));
+        }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .question-group:nth-child(1) { --i: 1; }
+        .question-group:nth-child(2) { --i: 2; }
+        .question-group:nth-child(3) { --i: 3; }
+        .question-group:nth-child(4) { --i: 4; }
+        .question-group:nth-child(5) { --i: 5; }
+        .question-group label {
+            display: block;
+            font-family: 'Lora', serif;
+            font-weight: 600;
+            color: #2F4F4F;
+            margin-bottom: 12px;
+            font-size: 1.15em;
+            line-height: 1.4;
+        }
+        .question-group textarea {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid #2F4F4F;
+            border-radius: 8px;
+            font-size: 1em;
+            font-family: 'Lora', serif;
+            resize: vertical;
+            min-height: 130px;
+            outline: none;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        .question-group textarea:focus {
+            border-color: #D4AF37;
+            box-shadow: 0 0 0 4px rgba(212,175,55,0.15);
+        }
+        .error {
+            color: #e53e3e;
+            font-size: 0.85em;
+            margin-top: 6px;
+            display: none;
+        }
+        .btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(90deg, #D4AF37, #B8972A);
+            color: #1A2525;
+            border: none;
+            border-radius: 10px;
+            font-family: 'Cinzel', serif;
+            font-size: 1.2em;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+            margin: 15px 0;
+        }
+        .btn:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(212,175,55,0.5);
+        }
+        .btn i {
+            margin-right: 12px;
+        }
+        .btn-secondary {
+            background: #2F4F4F;
+            color: #F8F1E9;
+            width: auto;
+            padding: 12px 30px;
+            font-size: 1em;
+            border-radius: 8px;
+            margin-left: 10px;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.75);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .modal-content {
+            background: #F8F1E9;
+            padding: 35px;
+            border-radius: 16px;
+            border: 3px solid #D4AF37;
+            text-align: center;
+            width: 90%;
+            max-width: 500px;
+            animation: scaleIn 0.5s ease;
+        }
+        @keyframes scaleIn { from { transform: scale(0.7); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        .modal-content img {
+            width: 120px;
+            margin-bottom: 25px;
+            filter: drop-shadow(0 6px 12px rgba(0,0,0,0.3));
+        }
+        .modal-content h3 {
+            font-family: 'Cinzel', serif;
+            color: #2F4F4F;
+            font-size: 1.8em;
+            margin-bottom: 15px;
+        }
+        .modal-content p {
+            color: #1A2525;
+            font-size: 1.1em;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+        .modal-content button {
+            padding: 14px 35px;
+            background: #D4AF37;
+            color: #1A2525;
+            border: none;
+            border-radius: 8px;
+            font-family: 'Cinzel', serif;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.3s;
+        }
+        .modal-content button:hover {
+            background: #B8972A;
+            transform: scale(1.06);
+        }
+        .canvas-confetti {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1002;
+        }
+        .button-group {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+        }
+        @media (max-width: 480px) {
+            .container { padding: 25px; max-width: 100%; }
+            h1 { font-size: 1.8em; }
+            h2 { font-size: 1.5em; }
+            .question-group { padding: 20px; }
+            .question-group textarea { font-size: 0.95em; min-height: 110px; }
+            .btn { font-size: 1.1em; padding: 14px; }
+            .modal-content { padding: 25px; }
+            .modal-content img { width: 100px; }
+            .button-group { flex-direction: column; }
+            .btn-secondary { margin-left: 0; margin-top: 10px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container" role="main">
+        <h1>Imersão Método Vida de Valor</h1>
+        <div class="intro">
+            <p id="bibleVerse">"...uma coisa faço: esquecendo-me das coisas que ficaram para trás e avançando para as que estão adiante, prossigo para o alvo, a fim de ganhar o prêmio do chamado celestial de Deus em Cristo Jesus"</p>
+            <p class="citation">Filipenses 3:13-14</p>
+            <p class="welcome" id="welcomeMessage">Parabéns por avançar! Continue definindo sua clareza.</p>
+        </div>
+        <div class="goal">
+        <h2>Nível 2: Clareza – Saber onde quer chegar</h2>
+        <div class="actions">
+            <h3>Exemplos de Ações para Desenvolver Essa Competência</h3>
+            <ul>
+                <li>Ler livros.</li>
+                <li>Estudar 1h por dia.</li>
+                <li>Fazer reuniões estratégicas.</li>
+                <li>Organizar a agenda.</li>
+                <li>Revisar metas semanalmente.</li>
+                <li>Praticar exercícios físicos.</li>
+                <li>Falar inglês com regularidade.</li>
+                <li>Ter percepção de progresso e resultado.</li>
+            </ul>
+        </div>
+        <form id="lectureForm" onsubmit="return false;" aria-label="Formulário de reflexões do Nível 2">
+            <div class="question-group">
+                <label for="q1">O que você realmente quer viver este ano?</label>
+                <textarea id="q1" placeholder="Escreva sua reflexão aqui..." required aria-label="Reflexão sobre o que você quer viver este ano"></textarea>
+                <div class="error" id="q1Error">Por favor, compartilhe sua reflexão.</div>
+            </div>
+            <div class="question-group">
+                <label for="q2">Qual é a sua prioridade nº 1 neste momento?</label>
+                <textarea id="q2" placeholder="Escreva sua reflexão aqui..." required aria-label="Reflexão sobre sua prioridade nº 1"></textarea>
+                <div class="error" id="q2Error">Por favor, compartilhe sua reflexão.</div>
+            </div>
+            <div class="question-group">
+                <label for="q3">Qual meta essa competência vai te ajudar a atingir?</label>
+                <textarea id="q3" placeholder="Escreva sua reflexão aqui..." required aria-label="Reflexão sobre a meta que a clareza ajudará a atingir"></textarea>
+                <div class="error" id="q3Error">Por favor, compartilhe sua reflexão.</div>
+            </div>
+            <div class="question-group">
+                <label for="q4">Quais ações você precisa realizar para desenvolver mais essa competência?</label>
+                <textarea id="q4" placeholder="Escreva sua reflexão aqui..." required aria-label="Reflexão sobre ações para desenvolver clareza"></textarea>
+                <div class="error" id="q4Error">Por favor, compartilhe sua reflexão.</div>
+            </div>
+            <div class="question-group">
+                <label for="q5">Quais são as 3 competências que você escolhe, alinhadas com o seu objetivo?</label>
+                <textarea id="q5" placeholder="Escreva sua reflexão aqui..." required aria-label="Reflexão sobre competências escolhidas"></textarea>
+                <div class="error" id="q5Error">Por favor, compartilhe sua reflexão.</div>
+            </div>
+            <div class="button-group">
+                <button class="btn" onclick="submitLevel()" aria-label="Avançar para o Próximo Nível">
+                    <i style="color: #1A2525;" aria-hidden="true">✅</i> Próximo Nível
+                </button>
+                <button class="btn btn-secondary" onclick="goBack()" aria-label="Voltar para o Nível 1">
+                    <i style="color: #F8F1E9;" aria-hidden="true">⬅️</i> Voltar
+                </button>
+                <button class="btn btn-secondary" onclick="restartLevel()" aria-label="Reiniciar Nível 2">
+                    <i style="color: #F8F1E9;" aria-hidden="true">🔄</i> Recomeçar Reflexões
+                </button>
+            </div>
+        </form>
+        <div class="modal" id="badgeModal" role="dialog" aria-labelledby="badgeTitle">
+            <div class="modal-content">
+                <img src="https://via.placeholder.com/120?text=Badge" alt="Ícone de conquista Clareza Conquistada">
+                <h3 id="badgeTitle">Parabéns! Clareza Conquistada!</h3>
+                <p>Sua jornada ganhou clareza! O Nível 3 está pronto para você!</p>
+                <button onclick="closeBadgeModal()" aria-label="Continuar para o próximo nível">Prosseguir</button>
+            </div>
+        </div>
+        <canvas class="canvas-confetti" id="confettiCanvas"></canvas>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script>
+        const form = document.getElementById('lectureForm');
+        const inputs = [
+            document.getElementById('q1'),
+            document.getElementById('q2'),
+            document.getElementById('q3'),
+            document.getElementById('q4'),
+            document.getElementById('q5')
+        ];
+        const badgeModal = document.getElementById('badgeModal');
+        const welcomeMessage = document.getElementById('welcomeMessage');
+        let responses = JSON.parse(localStorage.getItem('level2Responses')) || {};
+
+        // Personaliza a mensagem de boas-vindas
+        const participants = JSON.parse(localStorage.getItem('participants')) || [];
+        const latestParticipant = participants[participants.length - 1];
+        if (latestParticipant && latestParticipant.name) {
+            welcomeMessage.textContent = `Parabéns por avançar, ${latestParticipant.name.split(' ')[0]}! Continue definindo sua clareza.`;
+        }
+
+        // Carrega respostas salvas
+        inputs.forEach(input => {
+            if (responses[input.id]) {
+                input.value = responses[input.id];
+            }
+            input.addEventListener('input', () => {
+                input.value.trim() ? clearError(input, `${input.id}Error`) : showError(input, `${input.id}Error`, 'Por favor, compartilhe sua reflexão.');
+                saveResponse(input);
+            });
+        });
+
+        // Salva respostas no localStorage
+        function saveResponse(input) {
+            responses[input.id] = input.value.trim();
+            localStorage.setItem('level2Responses', JSON.stringify(responses));
+        }
+
+        // Feedback em tempo real
+        function showError(input, errorId, message) {
+            const error = document.getElementById(errorId);
+            error.textContent = message;
+            error.style.display = 'block';
+            input.style.borderColor = '#e53e3e';
+        }
+
+        function clearError(input, errorId) {
+            const error = document.getElementById(errorId);
+            error.style.display = 'none';
+            input.style.borderColor = '#2F4F4F';
+        }
+
+        // Confetti para celebração
+        function triggerConfetti() {
+            const canvas = document.getElementById('confettiCanvas');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            confetti({
+                particleCount: 100,
+                spread: 60,
+                origin: { y: 0.6 },
+                colors: ['#D4AF37', '#B8972A', '#2F4F4F']
+            });
+            setTimeout(() => confetti.reset(), 2000);
+        }
+
+        // Envio do nível
+        function submitLevel() {
+            const allFilled = inputs.every(input => input.value.trim() !== '');
+            if (!allFilled) {
+                inputs.forEach(input => {
+                    if (!input.value.trim()) {
+                        showError(input, `${input.id}Error`, 'Por favor, compartilhe sua reflexão.');
+                    }
+                });
+                alert('Por favor, responda todas as questões antes de prosseguir.');
+                return;
+            }
+            localStorage.setItem('level2Completed', 'true');
+            triggerConfetti();
+            badgeModal.style.display = 'flex';
+        }
+
+        // Reinicia o nível
+        function restartLevel() {
+            if (confirm('Deseja recomeçar suas reflexões? Todo o progresso será apagado.')) {
+                form.reset();
+                responses = {};
+                localStorage.removeItem('level2Responses');
+                localStorage.removeItem('level2Completed');
+                inputs.forEach(input => clearError(input, `${input.id}Error`));
+            }
+        }
+
+        // Volta ao nível anterior
+        function goBack() {
+            window.location.href = 'palestra-nivel1.html';
+        }
+
+        // Fecha o modal e redireciona
+        function closeBadgeModal() {
+            badgeModal.style.display = 'none';
+            window.location.href = 'palestra-nivel3.html';
+        }
+    </script>
+</body>
+</html>
